@@ -1,0 +1,68 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{756E4ACA-F003-46AF-81F4-FE29C948A52D}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+		release_notes.md = release_notes.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DFEAC440-D29C-4533-A8D5-8A22741703E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SwephNet", "SwephNet", "{6570141C-4031-4ED8-BAC0-CA0924EA58B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwephNet", "SwephNet\SwephNet\SwephNet.csproj", "{498F82B5-2BD8-47E1-89DB-E5AF071974EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwephNet.Tests", "Tests\SwephNet.Tests\SwephNet.Tests.csproj", "{D5B6F916-996F-48E7-B23A-CA573011A041}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SweNet", "SwephNet\SweNet\SweNet.csproj", "{1FB73EE2-380E-460F-A57D-0FBAA73EBA25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SweNet.Tests", "Tests\SweNet.Tests\SweNet.Tests.csproj", "{2704F962-2890-40DD-9285-52D6877F0E28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Programs", "Programs", "{CF6594B3-4A1D-4208-B774-5DF3E3CB9EDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SweWPF", "Programs\SweWPF\SweWPF.csproj", "{7C117264-88F9-49E7-A45E-F27E3934921B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{498F82B5-2BD8-47E1-89DB-E5AF071974EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{498F82B5-2BD8-47E1-89DB-E5AF071974EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{498F82B5-2BD8-47E1-89DB-E5AF071974EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{498F82B5-2BD8-47E1-89DB-E5AF071974EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5B6F916-996F-48E7-B23A-CA573011A041}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5B6F916-996F-48E7-B23A-CA573011A041}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5B6F916-996F-48E7-B23A-CA573011A041}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5B6F916-996F-48E7-B23A-CA573011A041}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FB73EE2-380E-460F-A57D-0FBAA73EBA25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FB73EE2-380E-460F-A57D-0FBAA73EBA25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FB73EE2-380E-460F-A57D-0FBAA73EBA25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FB73EE2-380E-460F-A57D-0FBAA73EBA25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2704F962-2890-40DD-9285-52D6877F0E28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2704F962-2890-40DD-9285-52D6877F0E28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2704F962-2890-40DD-9285-52D6877F0E28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2704F962-2890-40DD-9285-52D6877F0E28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C117264-88F9-49E7-A45E-F27E3934921B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C117264-88F9-49E7-A45E-F27E3934921B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C117264-88F9-49E7-A45E-F27E3934921B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C117264-88F9-49E7-A45E-F27E3934921B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{498F82B5-2BD8-47E1-89DB-E5AF071974EC} = {6570141C-4031-4ED8-BAC0-CA0924EA58B7}
+		{D5B6F916-996F-48E7-B23A-CA573011A041} = {DFEAC440-D29C-4533-A8D5-8A22741703E4}
+		{1FB73EE2-380E-460F-A57D-0FBAA73EBA25} = {6570141C-4031-4ED8-BAC0-CA0924EA58B7}
+		{2704F962-2890-40DD-9285-52D6877F0E28} = {DFEAC440-D29C-4533-A8D5-8A22741703E4}
+		{7C117264-88F9-49E7-A45E-F27E3934921B} = {CF6594B3-4A1D-4208-B774-5DF3E3CB9EDE}
+	EndGlobalSection
+EndGlobal
