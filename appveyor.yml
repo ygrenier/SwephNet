@@ -24,7 +24,7 @@ platform: AnyCPU
 
 # to add several configurations to build matrix:
 configuration:
-  - Debug
+#  - Debug
   - Release
 
 # scripts to run before build
@@ -45,7 +45,9 @@ before_build:
 #---------------------------------#
 
 # to disable automatic tests 
-#test: off
+test:
+  assemblies:
+    - SwephNet.Tests.dll
 
 #---------------------------------#
 #      artifacts configuration    #
