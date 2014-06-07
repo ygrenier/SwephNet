@@ -29,7 +29,7 @@ configuration:
 
 # scripts to run before build
 before_build:
-  - ps: & nuget restore
+  - cmd: nuget restore
 
 # scripts to run after build
 #after_build:
