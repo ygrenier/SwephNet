@@ -67,7 +67,9 @@
     <Compile Include="Houses\HouseResult.cs" />
     <Compile Include="Houses\HouseSystem.cs" />
     <Compile Include="Houses\SweHouse.cs" />
+    <Compile Include="ISwephData.cs" />
     <Compile Include="JPL\[Enums].cs" />
+    <Compile Include="Lib\SweNut200a.cs" />
     <Compile Include="Locales\LSR.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -84,7 +86,7 @@
     <Compile Include="Planets\SwePlanet.cs" />
     <Compile Include="SweError.cs" />
     <Compile Include="SweFormat.cs" />
-    <Compile Include="SweLib.cs" />
+    <Compile Include="Lib\SweLib.cs" />
     <Compile Include="Sweph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Check.cs" />

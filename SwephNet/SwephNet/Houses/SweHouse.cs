@@ -118,11 +118,10 @@ namespace SwephNet
             //            double armc, eps; double[] nutlo = new double[2];
             var jde = _Sweph.EphemerisTime(day);
             var eps = SweLib.Epsiln(jde, 0) * SweLib.RADTODEG;
-            var nutlo = SweLib.Nutation(jde, JPL.JplHorizonMode.None);
-            //            SE.SwephLib.swi_nutation(tjde, 0, nutlo);
-            //            for (i = 0; i < 2; i++)
-            //                nutlo[i] *= SwissEph.RADTODEG;
-            //            armc = SE.swe_degnorm(SE.swe_sidtime0(tjd_ut, eps + nutlo[1], nutlo[0]) * 15 + geolon);
+            var nutlo = _Sweph.Lib.Nutation(jde, JPL.JplHorizonMode.None);
+            for (int i = 0; i < 2; i++)
+                nutlo[i] *= SweLib.RADTODEG;
+            //armc = SE.swe_degnorm(SE.swe_sidtime0(tjd_ut, eps + nutlo[1], nutlo[0]) * 15 + geolon);
             //#if TRACE
             //            //swi_open_trace(NULL);
             //            //if (swi_trace_count <= TRACE_COUNT_MAX) {

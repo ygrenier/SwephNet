@@ -12,7 +12,8 @@ namespace SwephNet
     public class Sweph :
         IDisposable,
         IStreamProvider,
-        ITracer
+        ITracer,
+        ISwephData
     {
         private IDependencyContainer _Dependencies;
 
@@ -23,6 +24,7 @@ namespace SwephNet
         /// </summary>
         public Sweph()
         {
+            InitSwephData();
         }
 
         /// <summary>
@@ -82,11 +84,13 @@ namespace SwephNet
             container.RegisterInstance(this);
             container.RegisterInstance<IStreamProvider>(this);
             container.RegisterInstance<ITracer>(this);
+            container.RegisterInstance<ISwephData>(this);
             container.RegisterInstance<IDependencyContainer>(container);
             // Register engines types
             container.Register<SweDate, SweDate>();
             container.Register<SwePlanet, SwePlanet>();
             container.Register<SweHouse, SweHouse>();
+            container.Register<SweLib, SweLib>();
         }
 
         #endregion
@@ -178,6 +182,33 @@ namespace SwephNet
 
         #endregion
 
+        #region ISwephData
+
+        void InitSwephData()
+        {
+            EopTjdBeg = 0;
+            EopTjdBeg_horizons = 0;
+            EopTjdEnd = 0;
+            EopTjdEnd_add = 0;
+            EopDpsiLoaded = false;
+            Dpsi = new double[0];
+            Deps = new double[0];
+        }
+
+        public double EopTjdBeg { get; private set; }
+        public double EopTjdBeg_horizons { get; private set; }
+        public double EopTjdEnd { get; private set; }
+        public double EopTjdEnd_add { get; private set; }
+        public bool EopDpsiLoaded { get; private set; }
+
+        /// <summary>
+        /// works for 100 years after 1962
+        /// </summary>
+        public double[] Dpsi { get; private set; }
+        public double[] Deps { get; private set; }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -207,6 +238,14 @@ namespace SwephNet
         public SweHouse House
         {
             get { return Dependencies.Resolve<SweHouse>(); }
+        }
+
+        /// <summary>
+        /// Library
+        /// </summary>
+        public SweLib Lib
+        {
+            get { return Dependencies.Resolve<SweLib>(); }
         }
 
         #endregion
