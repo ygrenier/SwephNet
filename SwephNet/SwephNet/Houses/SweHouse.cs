@@ -113,7 +113,7 @@ namespace SwephNet
         /// <returns></returns>
         public Houses.HouseResult Houses(JulianDay day, GeoPosition position, HouseSystem hsys)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("SweHouse.Houses");
             //            int i, retc = 0;
             //            double armc, eps; double[] nutlo = new double[2];
             var jde = _Sweph.EphemerisTime(day);
@@ -121,24 +121,7 @@ namespace SwephNet
             var nutlo = _Sweph.Lib.Nutation(jde, JPL.JplHorizonMode.None);
             for (int i = 0; i < 2; i++)
                 nutlo[i] *= SweLib.RADTODEG;
-            //armc = SE.swe_degnorm(SE.swe_sidtime0(tjd_ut, eps + nutlo[1], nutlo[0]) * 15 + geolon);
-            //#if TRACE
-            //            //swi_open_trace(NULL);
-            //            //if (swi_trace_count <= TRACE_COUNT_MAX) {
-            //            //    if (swi_fp_trace_c != NULL) {
-            //            //        fputs("\n/*SWE_HOUSES*/\n", swi_fp_trace_c);
-            //            //        fprintf(swi_fp_trace_c, "#if 0\n");
-            //            //        fprintf(swi_fp_trace_c, "  tjd = %.9f;", tjd_ut);
-            //            //        fprintf(swi_fp_trace_c, " geolon = %.9f;", geolon);
-            //            //        fprintf(swi_fp_trace_c, " geolat = %.9f;", geolat);
-            //            //        fprintf(swi_fp_trace_c, " hsys = %d;\n", hsys);
-            //            //        fprintf(swi_fp_trace_c, "  retc = swe_houses(tjd, geolat, geolon, hsys, cusp, ascmc);\n");
-            //            //        fprintf(swi_fp_trace_c, "  /* swe_houses calls swe_houses_armc as follows: */\n");
-            //            //        fprintf(swi_fp_trace_c, "#endif\n");
-            //            //        fflush(swi_fp_trace_c);
-            //            //    }
-            //            //}
-            //#endif
+            double armc = SweLib.DegNorm(_Sweph.Date.SidTime0(day, eps + nutlo[1], nutlo[0]).Value * 15 + position.Longitude);
             //            retc = swe_houses_armc(armc, geolat, eps + nutlo[1], hsys, cusp, ascmc);
             //            return retc;
             //        }

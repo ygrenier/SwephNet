@@ -9,7 +9,7 @@ namespace SwephNet
     /// <summary>
     /// Swiss Ephmeris context
     /// </summary>
-    public class Sweph :
+    public partial class Sweph :
         IDisposable,
         IStreamProvider,
         ITracer,

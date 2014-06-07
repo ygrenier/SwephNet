@@ -82,6 +82,14 @@ namespace SwephNet
         #region Ctor & Dest.
 
         /// <summary>
+        /// Static constructor
+        /// </summary>
+        static SweDate()
+        {
+            UseSidLongTerm = true;
+        }
+
+        /// <summary>
         /// Create a new SweDate
         /// </summary>
         public SweDate(IDependencyContainer container)
@@ -549,7 +557,7 @@ namespace SwephNet
                 u = (Ygreg - 1000) / 100.0;
                 ans = (((((0.0083572073 * u - 0.005050998) * u - 0.8503463) * u + 0.319781) * u + 71.23472) * u - 556.01) * u + 1574.2;
             }
-                // TODO Verify dead code
+            // TODO Verify dead code
             else if (Ygreg < 1700)
             {
                 u = Ygreg - 1600;
@@ -728,7 +736,7 @@ namespace SwephNet
                 return DeltatAA(jd);
             }
         }
-        
+
         #endregion
 
         #region Tidal acceleration
@@ -755,6 +763,189 @@ namespace SwephNet
 
         #endregion
 
+        #region Sideral time
+
+        /// <summary>
+        /// The time range of DE431 requires a new calculation of sidereal time that 
+        /// gives sensible results for the remote past and future.
+        /// The algorithm is based on the formula of the mean earth by Simon & alii,
+        /// "Precession formulae and mean elements for the Moon and the Planets",
+        /// A&A 282 (1994), p. 675/678.
+        /// The longitude of the mean earth relative to the mean equinox J2000
+        /// is calculated and then precessed to the equinox of date, using the
+        /// default precession model of the Swiss Ephmeris. Afte that,
+        /// sidereal time is derived.
+        /// The algoritm provides exact agreement for epoch 1 Jan. 2003 with the 
+        /// definition of sidereal time as given in the IERS Convention 2010.
+        /// </summary>
+        double SidtimeLongTerm(double tjd_ut, double eps, double nut)
+        {
+            throw new NotImplementedException("SweDate.SidtimeLongTerm");
+            //double tsid = 0, tjd_et;
+            double dlt = Sweph.AUNIT / Sweph.CLIGHT / 86400.0;
+            double[] xs = new double[6], xobl = new double[6];
+            double tjd_et = tjd_ut + DeltaT(tjd_ut);
+            double t = (tjd_et - J2000) / 365250.0;
+            double t2 = t * t;
+            double t3 = t * t2;
+            double t4 = t * t3;
+            double t5 = t * t4;
+            double t6 = t * t5;
+
+            // mean longitude of earth J2000
+            double dlon = 100.46645683 + (1295977422.83429 * t - 2.04411 * t2 - 0.00523 * t3) / 3600.0;
+
+            // light time sun-earth
+            dlon = SweLib.DegNorm(dlon - dlt * 360.0 / 365.2425);
+            xs[0] = dlon * SweLib.DEGTORAD; xs[1] = 0; xs[2] = 1;
+
+            // to mean equator J2000, cartesian
+            //SE.swe_calc_ut(Sweph.J2000, SwissEph.SE_ECL_NUT, 0, xobl, ref sdummy); /* fehler behandeln */
+            //swi_polcart(xs, xs);
+            //swi_coortrf(xs, xs, -xobl[1] * SwissEph.DEGTORAD);
+
+            ///* precess to mean equinox of date */
+            //swi_precess(xs, tjd_et, 0, -1);
+            ///* to mean equinox of date */
+            //SE.swe_calc_ut(tjd_ut, SwissEph.SE_ECL_NUT, 0, xobl, ref sdummy); /* fehler behandeln */
+            //swi_coortrf(xs, xs, xobl[1] * SwissEph.DEGTORAD);
+            //swi_cartpol(xs, xs);
+            //xs[0] *= SwissEph.RADTODEG;
+            //dhour = (tjd_ut - 0.5 % 1.0) * 360;
+            ///* mean to true, if nut != 0 */
+            //if (eps == 0)
+            //    xs[0] += xobl[2] * Math.Cos(xobl[0] * SwissEph.DEGTORAD);
+            //else
+            //    xs[0] += nut * Math.Cos(eps * SwissEph.DEGTORAD);
+            ///* add hour */
+            //xs[0] = swe_degnorm(xs[0] + nut * Math.Cos(eps * SwissEph.DEGTORAD) + dhour);
+            //tsid = xs[0] / 15;
+            //return tsid;
+        }
+
+        const double SIDT_LTERM_T0 = 2396758.5;  /* 1 Jan 1850  */
+        const double SIDT_LTERM_T1 = 2469807.5;  /* 1 Jan 2050  */
+        const double SIDT_LTERM_OFS0 = (0.09081674334 / 3600);
+        const double SIDT_LTERM_OFS1 = (0.337962821868 / 3600);
+
+        /// <summary>
+        /// Apparent Sidereal Time at Greenwich with equation of the equinoxes
+        /// </summary>
+        /// <remarks>
+        /// ERA-based expression for for Greenwich Sidereal Time (GST) based 
+        /// on the IAU 2006 precession and IAU 2000A_R06 nutation 
+        /// ftp://maia.usno.navy.mil/conv2010/chapter5/tab5.2e.txt
+        /// </remarks>
+        /// <param name="tjd"></param>
+        /// <param name="eps"></param>
+        /// <param name="nut"></param>
+        /// <returns>Returns sidereal time in hours.</returns>
+        public SideralTime SidTime0(JulianDay tjd, double eps, double nut)
+        {
+            throw new NotImplementedException("Swedate.SidTime0");
+
+            // Julian day at midnight Universal Time
+            double jd0;
+            //Time of day, UT seconds since UT midnight
+            double secs;
+            //            double eqeq, tt, msday, jdrel;
+            double gmst, dadd;
+            if (UseSidLongTerm)
+            {
+                if (tjd <= SIDT_LTERM_T0 || tjd >= SIDT_LTERM_T1)
+                {
+                    gmst = SidtimeLongTerm(tjd, eps, nut);
+                    if (tjd <= SIDT_LTERM_T0)
+                        gmst -= SIDT_LTERM_OFS0;
+                    else if (tjd >= SIDT_LTERM_T1)
+                        gmst -= SIDT_LTERM_OFS1;
+                    if (gmst >= 24) gmst -= 24;
+                    if (gmst < 0) gmst += 24;
+                    return new SideralTime(gmst);
+                }
+            }
+
+            // Julian day at given UT
+            double jd = tjd;
+            jd0 = Math.Floor(jd);
+            secs = tjd - jd0;
+            if (secs < 0.5)
+            {
+                jd0 -= 0.5;
+                secs += 0.5;
+            }
+            else
+            {
+                jd0 += 0.5;
+                secs -= 0.5;
+            }
+            secs *= 86400.0;
+            double tu = (jd0 - J2000) / 36525.0; // UT1 in centuries after J2000
+            //            if (SIDT_IERS_CONV_2010)
+            //            {
+            //                /*  ERA-based expression for for Greenwich Sidereal Time (GST) based 
+            //                 *  on the IAU 2006 precession */
+            //                jdrel = tjd - Sweph.J2000;
+            //                tt = (tjd + swe_deltat(tjd) - Sweph.J2000) / 36525.0;
+            //                gmst = swe_degnorm((0.7790572732640 + 1.00273781191135448 * jdrel) * 360);
+            //                gmst += (0.014506 + tt * (4612.156534 + tt * (1.3915817 + tt * (-0.00000044 + tt * (-0.000029956 + tt * -0.0000000368))))) / 3600.0;
+            //                dadd = sidtime_non_polynomial_part(tt);
+            //                gmst = swe_degnorm(gmst + dadd);
+            //                /*printf("gmst iers=%f \n", gmst);*/
+            //                gmst = gmst / 15.0 * 3600.0;
+            //            }
+            //            else if (USE_PREC_IAU_2006)
+            //            {
+            //                tt = (jd0 + swe_deltat(jd0) - Sweph.J2000) / 36525.0; /* TT in centuries after J2000 */
+            //                gmst = (((-0.000000002454 * tt - 0.00000199708) * tt - 0.0000002926) * tt + 0.092772110) * tt * tt + 307.4771013 * (tt - tu) + 8640184.79447825 * tu + 24110.5493771;
+            //                /* mean solar days per sidereal day at date tu;
+            //                 * for the derivative of gmst, we can assume UT1 =~ TT */
+            //                msday = 1 + ((((-0.000000012270 * tt - 0.00000798832) * tt - 0.0000008778) * tt + 0.185544220) * tt + 8640184.79447825) / (86400.0 * 36525.0);
+            //                gmst += msday * secs;
+            //            }
+            //            else
+            //            {  /* IAU 1976 formula */
+            //                /* Greenwich Mean Sidereal Time at 0h UT of date */
+            //                gmst = ((-6.2e-6 * tu + 9.3104e-2) * tu + 8640184.812866) * tu + 24110.54841;
+            //                /* mean solar days per sidereal day at date tu, = 1.00273790934 in 1986 */
+            //                msday = 1.0 + ((-1.86e-5 * tu + 0.186208) * tu + 8640184.812866) / (86400.0 * 36525.0);
+            //                gmst += msday * secs;
+            //            }
+            //            /* Local apparent sidereal time at given UT at Greenwich */
+            //            eqeq = 240.0 * nut * Math.Cos(eps * SwissEph.DEGTORAD);
+            //            gmst = gmst + eqeq  /* + 240.0*tlong */;
+            //            /* Sidereal seconds modulo 1 sidereal day */
+            //            gmst = gmst - 86400.0 * Math.Floor(gmst / 86400.0);
+            //            /* return in hours */
+            //            gmst /= 3600;
+            //            goto sidtime_done;
+            //        sidtime_done:
+            //#if TRACE
+            //            //swi_open_trace(NULL);
+            //            //if (swi_trace_count < TRACE_COUNT_MAX) {
+            //            //    if (swi_fp_trace_c != NULL) {
+            //            //        fputs("\n/*SWE_SIDTIME0*/\n", swi_fp_trace_c);
+            //            //        fprintf(swi_fp_trace_c, "  tjd = %.9f;", tjd);
+            //            //        fprintf(swi_fp_trace_c, "  eps = %.9f;", eps);
+            //            //        fprintf(swi_fp_trace_c, "  nut = %.9f;\n", nut);
+            //            //        fprintf(swi_fp_trace_c, "  t = swe_sidtime0(tjd, eps, nut);\n");
+            //            //        fputs("  printf(\"swe_sidtime0: %f\\tsidt = %f\\teps = %f\\tnut = %f\\t\\n\", ", swi_fp_trace_c);
+            //            //        fputs("tjd, t, eps, nut);\n", swi_fp_trace_c);
+            //            //        fflush(swi_fp_trace_c);
+            //            //    }
+            //            //    if (swi_fp_trace_out != NULL) {
+            //            //        fprintf(swi_fp_trace_out, "swe_sidtime0: %f\tsidt = %f\teps = %f\tnut = %f\t\n", tjd, gmst, eps, nut);
+            //            trace("swe_sidtime0: %f\tsidt = %f\teps = %f\tnut = %f\t\n", tjd, gmst, eps, nut);
+            //            //        fflush(swi_fp_trace_out);
+            //            //    }
+            //            //}
+            //#endif
+            //            return gmst;
+        }
+
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -766,6 +957,11 @@ namespace SwephNet
         /// Current tidal acceleration
         /// </summary>
         public double TidalAcceleration { get; private set; }
+
+        /// <summary>
+        /// Use sideral long term
+        /// </summary>
+        public static bool UseSidLongTerm { get; set; }
 
         #endregion
 
