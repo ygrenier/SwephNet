@@ -118,6 +118,7 @@ namespace SwephNet
             //            double armc, eps; double[] nutlo = new double[2];
             var jde = _Sweph.EphemerisTime(day);
             var eps = SweLib.Epsiln(jde, 0) * SweLib.RADTODEG;
+            var nutlo = SweLib.Nutation(jde, JPL.JplHorizonMode.None);
             //            SE.SwephLib.swi_nutation(tjde, 0, nutlo);
             //            for (i = 0; i < 2; i++)
             //                nutlo[i] *= SwissEph.RADTODEG;
