@@ -8,7 +8,8 @@ namespace SweNet.Tests
     {
 
         [TestMethod]
-        public void TestCreateEmpty() {
+        public void TestCreateEmpty()
+        {
             EphemerisTime et = new EphemerisTime();
             Assert.AreEqual(0.0, et.JulianDay.Value);
             Assert.AreEqual(0.0, et.DeltaT);
@@ -16,7 +17,8 @@ namespace SweNet.Tests
         }
 
         [TestMethod]
-        public void TestCreate() {
+        public void TestCreate()
+        {
             var date = new DateUT(2014, 4, 26, 16, 53, 24);
             var jd = new JulianDay(date, DateCalendar.Gregorian);
             var dt = 0.456;
@@ -27,7 +29,8 @@ namespace SweNet.Tests
         }
 
         [TestMethod]
-        public void TestCastToDouble() {
+        public void TestCastToDouble()
+        {
             var date = new DateUT(2014, 4, 26, 16, 53, 24);
             var jd = new JulianDay(date, DateCalendar.Gregorian);
             var dt = 0.456;
@@ -37,12 +40,13 @@ namespace SweNet.Tests
         }
 
         [TestMethod]
-        public void TestToString() {
+        public void TestToString()
+        {
             var date = new DateUT(2014, 4, 26, 16, 53, 24);
             var jd = new JulianDay(date, DateCalendar.Gregorian);
             var dt = 0.456;
             EphemerisTime et = new EphemerisTime(jd, dt);
-            Assert.AreEqual("2456774,65975", et.ToString());
+            Assert.AreEqual(2456774.65975.ToString(), et.ToString());
         }
 
     }
