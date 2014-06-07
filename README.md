@@ -14,3 +14,8 @@ The two projects will continue to exist in parallel :
 This project is currently under development, so you can't use it prefer 
 (https://github.com/ygrenier/SwissEphNet) instead.
 
+## Status
+
+Current version : 2.0.0
+
+[![Build status](https://ci.appveyor.com/api/projects/status/calggagl2eoxjnyu)](https://ci.appveyor.com/project/ygrenier/swephnet)
