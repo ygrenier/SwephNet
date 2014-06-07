@@ -7,14 +7,16 @@ namespace SweNet.Tests
     public class JulianDayTest
     {
         [TestMethod]
-        public void TestCreateEmpty() {
+        public void TestCreateEmpty()
+        {
             JulianDay jd = new JulianDay();
             Assert.AreEqual(0.0, jd.Value);
             Assert.AreEqual(DateCalendar.Julian, jd.Calendar);
         }
 
         [TestMethod]
-        public void TestCreateComponents() {
+        public void TestCreateComponents()
+        {
             var date = new DateUT(2014, 4, 26, 16, 53, 24);
             JulianDay jd = new JulianDay(date, DateCalendar.Gregorian);
             Assert.AreEqual(2456774.20375, jd.Value);
@@ -32,7 +34,8 @@ namespace SweNet.Tests
         }
 
         [TestMethod]
-        public void TestCreateDouble() {
+        public void TestCreateDouble()
+        {
             var date = 2456774.20375;
             JulianDay jd = new JulianDay(date, DateCalendar.Gregorian);
             Assert.AreEqual(date, jd.Value);
@@ -44,21 +47,24 @@ namespace SweNet.Tests
         }
 
         [TestMethod]
-        public void TestToDateUT() {
+        public void TestToDateUT()
+        {
             var date = new DateUT(2014, 4, 26, 16, 53, 24);
             var jd = new JulianDay(date, DateCalendar.Gregorian);
             Assert.AreEqual(date, jd.ToDateUT());
         }
 
         [TestMethod]
-        public void TestToDateTime() {
+        public void TestToDateTime()
+        {
             var date = new DateUT(2014, 4, 26, 16, 53, 24);
             var jd = new JulianDay(date, DateCalendar.Gregorian);
             Assert.AreEqual(date.ToDateTime(), jd.ToDateTime());
         }
 
         [TestMethod]
-        public void TestCastToDouble() {
+        public void TestCastToDouble()
+        {
             var date = new DateUT(2014, 4, 26, 16, 53, 24);
             var jd = new JulianDay(date, DateCalendar.Gregorian);
             double cd = jd;
@@ -66,10 +72,11 @@ namespace SweNet.Tests
         }
 
         [TestMethod]
-        public void TestToString() {
+        public void TestToString()
+        {
             var date = new DateUT(2014, 4, 26, 16, 53, 24);
             var jd = new JulianDay(date, DateCalendar.Gregorian);
-            Assert.AreEqual("2456774,20375", jd.ToString());
+            Assert.AreEqual(2456774.20375.ToString(), jd.ToString());
         }
 
     }

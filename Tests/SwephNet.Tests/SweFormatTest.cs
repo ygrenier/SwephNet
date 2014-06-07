@@ -6,12 +6,18 @@ namespace SwephNet.Tests
     [TestClass]
     public class SweFormatTest
     {
+        [TestInitialize]
+        public void Initialize()
+        {
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
+        }
 
         [TestMethod]
         public void TestFormatAsDegrees() {
-            Assert.AreEqual("   0°  0'  0,0000", SweFormat.FormatAsDegrees(0));
-            Assert.AreEqual(" 123° 27' 24,4080", SweFormat.FormatAsDegrees(123.45678));
-            Assert.AreEqual("-123° 27' 24,4080", SweFormat.FormatAsDegrees(-123.45678));
+            Assert.AreEqual("   0°  0'  0.0000", SweFormat.FormatAsDegrees(0));
+            Assert.AreEqual(" 123° 27' 24.4080", SweFormat.FormatAsDegrees(123.45678));
+            Assert.AreEqual("-123° 27' 24.4080", SweFormat.FormatAsDegrees(-123.45678));
         }
 
         [TestMethod]

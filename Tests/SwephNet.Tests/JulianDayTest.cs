@@ -6,6 +6,13 @@ namespace SwephNet.Tests
     [TestClass]
     public class JulianDayTest
     {
+        [TestInitialize]
+        public void Initialize()
+        {
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
+        }
+
         [TestMethod]
         public void TestCreateEmpty() {
             JulianDay jd = new JulianDay();
@@ -69,7 +76,7 @@ namespace SwephNet.Tests
         public void TestToString() {
             var date = new UniversalTime(2014, 4, 26, 16, 53, 24);
             var jd = new JulianDay(date, DateCalendar.Gregorian);
-            Assert.AreEqual("2456774,20375", jd.ToString());
+            Assert.AreEqual("2456774.20375", jd.ToString());
         }
 
     }
